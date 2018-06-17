@@ -22,8 +22,8 @@ namespace HomeworkPlatform
             // Topic router
             routes.MapRoute(
                 name: "Topic",
-                url: "Topic/{action}/{topic_id}/{upload_id}",
-                defaults: new { controller = "Topic", action = "Index", topic_id = UrlParameter.Optional, upload_id = UrlParameter.Optional}
+                url: "Topic/{action}/{id}/",
+                defaults: new { controller = "Topic", action = "Index", id = UrlParameter.Optional}
             );
 
             // Account router
