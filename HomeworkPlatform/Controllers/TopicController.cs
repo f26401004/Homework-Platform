@@ -6,9 +6,13 @@ using System.Web.Mvc;
 
 namespace HomeworkPlatform.Controllers
 {
-    public class ListController : Controller
+    public class TopicController : Controller
     {
         public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult List()
         {
             return View();
         }
