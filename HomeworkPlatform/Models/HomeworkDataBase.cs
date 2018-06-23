@@ -29,7 +29,7 @@ namespace HomeworkPlatform.Models
 
         public HomeworkDataBase()
         {
-            System.IO.StreamReader file = new System.IO.StreamReader("DataBaseInfo.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
             user = file.ReadLine();
             pass = file.ReadLine();
             connect = file.ReadLine();
