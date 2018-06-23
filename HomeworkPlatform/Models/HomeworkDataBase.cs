@@ -9,13 +9,13 @@ namespace HomeworkPlatform.Models
 {
     public class HomeworkDataBase
     {
-        private int id { get; set; }
-        private string author { get; set; }
-        private string title { get; set; }
-        private string content { get; set; }
-        private int like { get; set; }
-        private int people { get; set; }
-        private int score { get; set; }
+        private int id;
+        private string author;
+        private string title;
+        private string content;
+        private int like;
+        private int people;
+        private int score ;
         //time homework homeworktype
 
         private string command = null;
@@ -90,6 +90,62 @@ namespace HomeworkPlatform.Models
             {
                 return false;
             }
+        }
+        public int getId()
+        {
+            return id;
+        }
+        public void setId(int Id)
+        {
+            id = Id;
+        }
+        public string getTitle()
+        {
+            return title;
+        }
+        public void setTitle(string Title)
+        {
+            title = Title;
+        }
+        public string getContent()
+        {
+            return content;
+        }
+        public void setContent(string Content)
+        {
+            content = Content;
+        }
+        public string getAuthor()
+        {
+            return author;
+        }
+        public void setAuthor(string Author)
+        {
+            author = Author;
+        }
+        public int getLike()
+        {
+            return like;
+        }
+        public void setLike(int Like)
+        {
+            like = Like;
+        }
+        public int getPeople()
+        {
+            return people;
+        }
+        public void setPeople(int People)
+        {
+            people = People;
+        }
+        public int getScore()
+        {
+            return score;
+        }
+        public void setScore(int Score)
+        {
+            score = Score;
         }
     }
 }

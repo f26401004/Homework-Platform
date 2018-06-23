@@ -9,14 +9,14 @@ namespace HomeworkPlatform.Models
 {
     public class AccountDataBase
     {
-        private int id { get; set; }
-        private string email { get; set; }
-        private string password { get; set; }
-        private string departmentAge { get; set; }
-        private string studentNumber { get; set; }
-        private string name { get; set; }
+        private int id;
+        private string email;
+        private string password;
+        private string departmentAge;
+        private string studentNumber;
+        private string name;
 
-        private string command=null;
+        private string command = null;
         private IMongoDatabase dataBase = null;
         private MongoClient dbClient;
         private string user;
@@ -26,7 +26,7 @@ namespace HomeworkPlatform.Models
         private string collection = "account";
 
         public AccountDataBase()
-        { 
+        {
             System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
             user = file.ReadLine();
             pass = file.ReadLine();
@@ -47,7 +47,7 @@ namespace HomeworkPlatform.Models
                     //collectionAccount.InsertOne(new BsonDocument { { "account", txtboxaccount.Text }, { "departmentage", txtboxdepartmentage.Text }, { "email", txtboxemail.Text }, { "name", txtboxname.Text }, { "password", txtboxpassword.Text }, { "studentnumber", txtboxstudentnumber.Text } });
                     value = true;
                 }
-            } catch(Exception err)
+            } catch (Exception err)
             {
                 value = false;
             }
@@ -61,11 +61,11 @@ namespace HomeworkPlatform.Models
             var collectionAccount = dataBase.GetCollection<BsonDocument>("account");
             var search = new BsonDocument("account", /*accountinput*/);
             var result = collectionAccount.Find(search).ToList();
-            if (result.Count==1)
+            if (result.Count == 1)
             {
-                value=true;
+                value = true;
             }
-            value=false;
+            value = false;
             return value;
         }
 
@@ -82,6 +82,55 @@ namespace HomeworkPlatform.Models
             {
                 return false;
             }
+        }
+
+        public int getId()
+        {
+            return id;
+        }
+        public void setId(int Id)
+        {
+            id = Id;
+        }
+        public string getEmail()
+        {
+            return email;
+        }
+        public void setEmail(string Email)
+        {
+            email = Email;
+        }
+        public string getName()
+        {
+            return name;
+        }
+        public void setName(string Name)
+        {
+            name = Name;
+        }
+        public string getPassword()
+        {
+            return password;
+        }
+        public void setPassword(string Pass)
+        {
+            password = Pass;
+        }
+        public string getDepartmentAge()
+        {
+            return departmentAge;
+        }
+        public void setDepartmentAge(string Department)
+        {
+            departmentAge = Department;
+        }
+        public string getStudentNumber()
+        {
+            return studentNumber;
+        }
+        public void setStudentNumber(string Student)
+        {
+            studentNumber = Student;
         }
     }
 }
