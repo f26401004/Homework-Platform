@@ -9,10 +9,10 @@ namespace HomeworkPlatform.Models
 {
     public class CommentDataBase
     {
-        private int id { get; set; }
-        private int hId { get; set; }
-        private string account { get; set; }
-        private string comment { get; set; }
+        private int id;
+        private int hId;
+        private string account;
+        private string comment;
 
         private IMongoDatabase dataBase = null;
         private MongoClient dbClient;
@@ -75,6 +75,38 @@ namespace HomeworkPlatform.Models
             {
                 return false;
             }
+        }
+        public int getId()
+        {
+            return id;
+        }
+        public void setId(int Id)
+        {
+            id = Id;
+        }
+        public int getHId()
+        {
+            return hId;
+        }
+        public void setHId(int HId)
+        {
+            hId = HId;
+        }
+        public string getAccount()
+        {
+            return account;
+        }
+        public void setAccount(string Account)
+        {
+            account = Account;
+        }
+        public string getComment()
+        {
+            return comment;
+        }
+        public void setComment(string Comment)
+        {
+            comment = Comment;
         }
     }
 }
