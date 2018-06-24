@@ -12,8 +12,16 @@ namespace HomeworkPlatform.Controllers
         {
             return View();
         }
-        public ActionResult List()
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult List(int id)
         {
+            ViewBag.topic_id = id;
+            return View();
+        }
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Detail(int id)
+        {
+            ViewBag.upload_id = id;
             return View();
         }
     }

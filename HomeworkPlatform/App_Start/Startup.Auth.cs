@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using HomeworkPlatform.Models;
+using HomeworkPlatform.App_Start;
 
 namespace HomeworkPlatform
 {
@@ -14,13 +15,16 @@ namespace HomeworkPlatform
         // 如需設定驗證的詳細資訊，請瀏覽 http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            
+
             // 設定資料庫內容、使用者管理員和登入管理員，以針對每個要求使用單一執行個體
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            //app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(PlatformIdentityContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
             //app.CreatePerOwinContext<PlatformUserManager>(PlatformUserManager.Create);
-            //pp.CreatePerOwinContext<PlatformSignInManager>(PlatformSignInManager.Create);
+            //app.CreatePerOwinContext<PlatformSignInManager>(PlatformSignInManager.Create);
 
             // 讓應用程式使用 Cookie 儲存已登入使用者的資訊
             // 並使用 Cookie 暫時儲存使用者利用協力廠商登入提供者登入的相關資訊；
