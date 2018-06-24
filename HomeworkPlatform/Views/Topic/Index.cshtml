@@ -1,7 +1,16 @@
-﻿@{
+﻿@using HomeworkPlatform.Models;
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "查看列表";
+
+    var database = new HomeworkDataBase();
+    database.accessHomeworkDataBase();
+    var homewrok_list = database.getAllHomework();
+
 }
+
+
+
 
 <div class="col-12" style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 1em;">
     <h2 class="d-block">@ViewBag.Title.</h2>
@@ -18,28 +27,57 @@
 
 
 <div class="container">
-
-
     <div class="card-columns">
-        <div class="card border-danger" style="padding: 20px;">
-            
+        @foreach (var data in homewrok_list)
+        {
+            <div class="card" style="padding: 20px;">
+                <h5 class="card-header text-center text-light bg-dark">Unity HW</h5>
+                <img class="card-img img-thumbnail" src="https://d2ujflorbtfzji.cloudfront.net/key-image/23ea211c-14b4-41c8-8af1-5e1658a90fa2.jpg" alt="Card image cap">
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    <table class="table bg-light">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="h6 align-middle text-dark font-weight-bold">點擊</span>
+                                    <span class="badge badge-pill badge-dark align-middle">100</span>
+                                </th>
+                                <th>
+                                    <span class="h6 align-middle text-dark font-weight-bold">讚數</span>
+                                    <span class="badge badge-pill badge-dark align-middle">100</span>
+                                </th>
+                                <th>
+                                    <span class="h6 align-middle text-dark font-weight-bold">評論</span>
+                                    <span class="badge badge-pill badge-dark align-middle">100</span>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <button type="button" class="btn btn-success w-100"> 查看 </button>
+                </div>
+            </div>
+        }
+
+        @{ 
+            /*
+<div class="card border-danger" style="padding: 20px;">
+
             <h5 class="card-header text-center text-light bg-dark"> Unity HW <span class="badge badge-pill badge-danger">New!!</span>  </h5>
             <img class="card-img img-thumbnail" src="https://i.imgur.com/ewROliO.png" alt="Card image cap">
             <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
                 <table class="table bg-light">
                     <thead>
                         <tr>
-                            <th> 
+                            <th>
                                 <span class="h6 align-middle text-dark font-weight-bold">點擊</span>
-                                <span class="badge badge-pill badge-dark align-middle">100</span> 
+                                <span class="badge badge-pill badge-dark align-middle">100</span>
                             </th>
                             <th>
                                 <span class="h6 align-middle text-dark font-weight-bold">讚數</span>
-                                <span class="badge badge-pill badge-dark align-middle">100</span> 
+                                <span class="badge badge-pill badge-dark align-middle">100</span>
                             </th>
                             <th>
                                 <span class="h6 align-middle text-dark font-weight-bold">評論</span>
-                                <span class="badge badge-pill badge-dark align-middle">100</span> 
+                                <span class="badge badge-pill badge-dark align-middle">100</span>
                             </th>
                         </tr>
                     </thead>
@@ -47,7 +85,7 @@
                 <button type="button" class="btn btn-success w-100"> 查看 </button>
             </div>
         </div>
-        
+
         @{
             Random rand = new Random();
 
@@ -80,6 +118,9 @@
                 </div>
             }
         }
+             */
+        }
+        
 
 
 

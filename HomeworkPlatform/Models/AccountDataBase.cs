@@ -9,8 +9,8 @@ namespace HomeworkPlatform.Models
 {
     public class AccountDataBase
     {
-        private int id { get; set; }
-        private string email { get; set; }
+        public int id { get; set; }
+        public string email { get; set; }
         private string password { get; set; }
         private string departmentAge { get; set; }
         private string studentNumber { get; set; }
@@ -27,7 +27,7 @@ namespace HomeworkPlatform.Models
 
         public AccountDataBase()
         { 
-            System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader("../DataBaseInfo.txt");
             user = file.ReadLine();
             pass = file.ReadLine();
             connect = file.ReadLine();
@@ -59,7 +59,7 @@ namespace HomeworkPlatform.Models
             Boolean value;
             if (!accessAccountDataBase()) return false;
             var collectionAccount = dataBase.GetCollection<BsonDocument>("account");
-            var search = new BsonDocument("account", /*accountinput*/);
+            var search = new BsonDocument("account", "admin"/*accountinput*/);
             var result = collectionAccount.Find(search).ToList();
             if (result.Count==1)
             {

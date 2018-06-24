@@ -86,7 +86,7 @@ namespace HomeworkPlatform.Models
 
         [Required]
         [Display(Name = "系級")]
-        public string Department { get; set; }
+        public string DepartmentAge { get; set; }
 
         [Required]
         [Display(Name = "學號")]
