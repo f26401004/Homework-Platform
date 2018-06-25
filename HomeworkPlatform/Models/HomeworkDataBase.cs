@@ -30,7 +30,7 @@ namespace HomeworkPlatform.Models
 
         public HomeworkDataBase()
         {
-            System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader("../DataBaseInfo.txt");
             user = file.ReadLine();
             pass = file.ReadLine();
             connect = file.ReadLine();
@@ -117,15 +117,21 @@ namespace HomeworkPlatform.Models
         {
             Boolean value;
             if (!accessHomeworkDataBase()) return false;
-            var collectionAccount = dataBase.GetCollection<BsonDocument>("id");
-            var search = new BsonDocument("id", /*accountinput*/);
-            var result = collectionAccount.Find(search).ToList();
+            var collectionHomework = dataBase.GetCollection<BsonDocument>("id");
+            var search = new BsonDocument("id", "test"/*accountinput*/);
+            var result = collectionHomework.Find(search).ToList();
             if (result.Count == 1)
             {
                 value = true;
             }
             value = false;
             return value;
+        }
+
+        public List<BsonDocument> getAllHomework()
+        {
+            var collectionHomework = dataBase.GetCollection<BsonDocument>(collection);
+            return collectionHomework.Find(f => true).ToList();
         }
 
         public Boolean accessHomeworkDataBase()

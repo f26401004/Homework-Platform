@@ -362,7 +362,7 @@ namespace HomeworkPlatform.Controllers
             }
             return false;
         }
-
+        /*
         private bool HasPhoneNumber()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -372,6 +372,7 @@ namespace HomeworkPlatform.Controllers
             }
             return false;
         }
+        */
 
         public enum ManageMessageId
         {

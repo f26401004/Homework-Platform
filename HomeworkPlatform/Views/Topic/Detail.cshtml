@@ -1,0 +1,63 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 style="margin-top: 1em;"> C# 期末專題 </h2>
+<hr />
+
+<div class="card" style="margin-top: 1em;">
+    <div class="card-header">
+        <h3 class="card-title">作業平台 Homework-Platform</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th scope="row" style="width: 25%;">Uploader</th>
+                    <td style="width: 75%;">109/資訊 黃俊豪</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width: 25%;">Time</th>
+                    <td style="width: 75%;"><time> 2018/06/17 20:15:12 </time></td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width: 25%;">Data Size</th>
+                    <td style="width: 75%;"><span class="badge badge-dark"> 1000 kb </span></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p class="card-text">
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+            這裡放作業平台的說明這裡放作業平台的說明這裡放作業平台的說明 <br />
+        </p>
+    </div>
+    <div class="card-footer">
+        <a href="#" class="btn btn-danger w-100">下載</a>
+    </div>
+</div>
+
+<h2 style="margin-top: 1em;"> 評論區 Comment </h2>
+<hr/>
+
+@{
+    for (int i = 0; i < 10; ++i)
+    {
+        <div class="card border-primary mb-3">
+            <div class="card-header">評論 #@(i+1)</div>
+            <div class="card-body text-primary">
+                <h5 class="card-title">邱百纓</h5>
+                <p class="card-text">太猛啦</p>
+            </div>
+        </div>
+    }
+}

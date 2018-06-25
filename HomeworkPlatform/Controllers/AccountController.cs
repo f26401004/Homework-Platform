@@ -33,7 +33,7 @@ namespace HomeworkPlatform.Controllers
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager = new ApplicationSignInManager(UserManager, AuthenticationManager);//?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
             private set 
             { 
@@ -75,14 +75,14 @@ namespace HomeworkPlatform.Controllers
             }
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
+                case SignInStatus.RequiresTwoFactorAuthentication:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
@@ -97,7 +97,7 @@ namespace HomeworkPlatform.Controllers
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // 需要使用者已透過使用者名稱/密碼或外部登入進行登入
-            if (!await SignInManager.HasBeenVerifiedAsync())
+            if (!await SignInManager.HasBeenVerified())
             {
                 return View("Error");
             }
@@ -120,7 +120,7 @@ namespace HomeworkPlatform.Controllers
             // 如果使用者輸入不正確的代碼來表示一段指定的時間，則使用者帳戶 
             // 會有一段指定的時間遭到鎖定。 
             // 您可以在 IdentityConfig 中設定帳戶鎖定設定
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignIn(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,7 +151,7 @@ namespace HomeworkPlatform.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {UserName = model.StudentID, Name = model.Name, StudentID = model.StudentID, Email = model.Email, DepartmentAge = model.DepartmentAge };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -310,7 +310,7 @@ namespace HomeworkPlatform.Controllers
             }
 
             // 產生並傳送 Token
-            if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
+            if (!await SignInManager.SendTwoFactorCode(model.SelectedProvider))
             {
                 return View("Error");
             }
@@ -329,14 +329,14 @@ namespace HomeworkPlatform.Controllers
             }
 
             // 若使用者已經有登入資料，請使用此外部登入提供者登入使用者
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            var result = await SignInManager.ExternalSignIn(loginInfo, isPersistent: false);
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
+                case SignInStatus.RequiresTwoFactorAuthentication:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
@@ -412,12 +412,13 @@ namespace HomeworkPlatform.Controllers
                     _userManager.Dispose();
                     _userManager = null;
                 }
-
+                /*
                 if (_signInManager != null)
                 {
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
+                */
             }
 
             base.Dispose(disposing);
