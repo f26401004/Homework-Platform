@@ -26,6 +26,7 @@ namespace HomeworkPlatform.Models
         private string connect;
         private string db;
         private string collection = "homework";
+        private List<string> homeworktype;
 
         public HomeworkDataBase()
         {
@@ -34,6 +35,7 @@ namespace HomeworkPlatform.Models
             pass = file.ReadLine();
             connect = file.ReadLine();
             db = file.ReadLine();
+            dataBase = dbClient.GetDatabase(db);
             file.Close();
         }
 
@@ -56,10 +58,58 @@ namespace HomeworkPlatform.Models
 
         public Boolean pageDefault()
         {
-            if (dataBase == null) return false;
-            if (!accessHomeworkDataBase()) return false;
-            var collectionAccount = dataBase.GetCollection<BsonDocument>("hit");
-            var result = collectionAccount.Find(_ => true).ToListAsync();
+            IMongoCollection<BsonDocument> collectionHome;
+            try
+            {
+                collectionHome = dataBase.GetCollection<BsonDocument>("homwork");
+
+                int j = 0;
+                homeworktype = new List<string>();
+
+                var result = collectionHome.Find(_ => true).ToList();
+
+                for (int i = 0; i < result.Count; ++i)
+                {
+                    string homty = result[i].ToString();
+                    String[] cut = homty.Split(new char[5] { ',', ':', '"', ' ', '\n' });
+                    for (int l = 0; l < cut.Length; ++l)
+                    {
+                        if (cut[l] == "homeworktype")
+                        {
+                            l = l + 1;
+                            while (cut[l] == "")
+                            {
+                                l = l + 1;
+                            }
+                            homty = cut[l];
+                            break;
+                        }
+                    }
+                    int k;
+                    for (k = 0; k < i; ++k)
+                    {
+                        if (homty == homeworktype[k])
+                        {
+                            break;
+                        }
+                    }
+                    if (k == i)
+                    {
+                        homeworktype.Add(homty);
+                    }
+                }
+
+            }
+            catch (Exception err)
+            {
+
+
+
+
+
+
+
+            }
             return true;
         }
 
