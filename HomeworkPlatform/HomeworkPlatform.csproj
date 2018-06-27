@@ -262,6 +262,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\UpLoadHomeworkModel.cs" />
+    <Compile Include="Models\TopicDataBase.cs" />
+    <Compile Include="Models\TopicDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

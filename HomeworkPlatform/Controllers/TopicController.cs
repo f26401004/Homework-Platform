@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HomeworkPlatform.Models;
 
 namespace HomeworkPlatform.Controllers
 {
@@ -10,7 +11,9 @@ namespace HomeworkPlatform.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var database = new TopicDataBase();
+            database.accessDataBase();
+            return View(database.getAllTopics());
         }
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult List(int id)
