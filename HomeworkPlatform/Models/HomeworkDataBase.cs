@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Threading.Tasks;
 
 namespace HomeworkPlatform.Models
 {
@@ -126,12 +127,6 @@ namespace HomeworkPlatform.Models
             }
             value = false;
             return value;
-        }
-
-        public List<BsonDocument> getAllHomework()
-        {
-            var collectionHomework = dataBase.GetCollection<BsonDocument>(collection);
-            return collectionHomework.Find(f => true).ToList();
         }
 
         public Boolean accessHomeworkDataBase()
