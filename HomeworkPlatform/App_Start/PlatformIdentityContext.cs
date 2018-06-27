@@ -16,7 +16,7 @@ namespace HomeworkPlatform.App_Start
         public static PlatformIdentityContext Create()
         {
 
-            System.IO.StreamReader file = new System.IO.StreamReader("../DataBaseInfo.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
             file.ReadLine();
             file.ReadLine();
             var connect = file.ReadLine();
