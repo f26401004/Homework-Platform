@@ -28,30 +28,5 @@ namespace HomeworkPlatform.Controllers
 
             return View();
         }
-
-        //Register
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Upload(UpViewModels model,string returnURL)
-        {
-            if (ModelState.IsValid)
-            {
-                Boolean result = false;
-                HomeworkDataBase home = new HomeworkDataBase(model);
-                result = home.accessHomeworkDataBase();
-                if (result)
-                {
-                    result = home.insertHomwork();
-                    if (result)
-                    {
-                        //success
-                    }
-                }
-            }
-            ViewBag.ReturnURL = returnURL;
-            return RedirectToAction("", "Home");
-
-        }
     }
 }

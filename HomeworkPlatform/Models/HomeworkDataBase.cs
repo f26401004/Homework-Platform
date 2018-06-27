@@ -10,7 +10,6 @@ namespace HomeworkPlatform.Models
 {
     public class HomeworkDataBase
     {
-        private UpViewModels up;
         private int id;
         private string author;
         private string title;
@@ -27,31 +26,29 @@ namespace HomeworkPlatform.Models
         private string pass;
         private string connect;
         private string db;
-        private string collection = "homwork";
+        private string collection = "homework";
         private List<string> homeworktype;
 
-        public HomeworkDataBase(UpViewModels UP)
+        public HomeworkDataBase()
         {
-            up = UP;
-            System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader("../DataBaseInfo.txt");
             user = file.ReadLine();
             pass = file.ReadLine();
             connect = file.ReadLine();
             db = file.ReadLine();
-            accessHomeworkDataBase();
-            dataBase = dbClient.GetDatabase(db);
             file.Close();
         }
 
-        public Boolean insertHomwork()
+        public Boolean insertHomwork(HomeworkModel model)
         {
             Boolean value;
-            if (!accessHomeworkDataBase()) return false;
+            if (!accessDataBase()) return false;
             try
             {
-                    var collectionAccount = dataBase.GetCollection<BsonDocument>(collection);
-                    collectionAccount.InsertOne(new BsonDocument { { "Title", up.Title }, { "Content",up.Content  },{ "Topic_id", up.Topic },/* { "Author", },*/ { "Score", up.Score}});
-                    value = true;
+                var collectionAccount = dataBase.GetCollection<BsonDocument>(collection);
+                collectionAccount.InsertOne(new BsonDocument { {"Title", model.Title}, { "Content", model.Content }, { "Author", model.Author.StudentID }, { "DepartmentAge", model.Author.DepartmentAge }, { "Email", model.Author.Email },
+                    { "UserName", model.Author.UserName },  { "ServerFilePath", model.ServerFilePath }, { "Score", model.Score } });
+                value = true;
             }
             catch (Exception err)
             {
@@ -65,7 +62,7 @@ namespace HomeworkPlatform.Models
         public Boolean getHomework()
         {
             Boolean value;
-            if (!accessHomeworkDataBase()) return false;
+            if (!accessDataBase()) return false;
             var collectionHomework = dataBase.GetCollection<BsonDocument>("id");
             var search = new BsonDocument("id", "test"/*accountinput*/);
             var result = collectionHomework.Find(search).ToList();
@@ -77,7 +74,7 @@ namespace HomeworkPlatform.Models
             return value;
         }
 
-        public Boolean accessHomeworkDataBase()
+        public Boolean accessDataBase()
         {
             try
             {

@@ -1,28 +1,54 @@
-﻿using AspNet.Identity.MongoDB;
-using Microsoft.AspNet.Identity;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace HomeworkPlatform.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationHomework : IdentityUser
+    public class HomeworkModel
     {
-        public string Content { get; set; }
-        public string Title { get; set; }
-        public int Score { get; set; }
-        public string Topic { get; set; }
-
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationHomework> manager)
+        public HomeworkModel()
         {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
-            return userIdentity;
-        }
-    }
 
+        }
+        public HomeworkModel(int id)
+        {
+            TopicId = id.ToString();
+        }
+        [BsonId]
+        public ObjectId HomeworkId { get; set; }
+
+        [DefaultValue(true)]
+        [ScaffoldColumn(false)]
+        public string TopicId { get; set; }
+
+        [Required]
+        [Display(Name = "標題 Title")]
+        [StringLength(60)]
+        public string Title { get; set; }
+
+        [Display(Name = "作者 Author")]
+        public ApplicationUser Author { get; set; }
+
+        [Required]
+        [Display(Name = "內容 Content")]
+        [AllowHtml]
+        public string Content { get; set; }
+
+        [Required]
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.doc|.docx|.pdf|.txt|.rar|.zip)$", ErrorMessage = "不允許除了 .doc/.docx/.pdf/.txt/.rar/.zip 外的檔案上傳")]
+        [Display(Name = "上傳 Upload")]
+        public HttpPostedFileBase UploadFile { get; set; }
+
+        [ScaffoldColumn(true)]
+        public string ServerFilePath { get; set; }
+
+        [Display(Name = "分數 Score")]
+        public string Score { get; set; }
+    }
 }

@@ -16,7 +16,7 @@ namespace HomeworkPlatform
             // Home router
             routes.MapRoute(
                 name: "Home",
-                url: "Home/{action}/",
+                url: "",
                 defaults: new { controller = "Home", action = "Index" }
             );
             // Topic router
