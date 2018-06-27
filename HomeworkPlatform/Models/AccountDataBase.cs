@@ -34,11 +34,11 @@ namespace HomeworkPlatform.Models
             db = file.ReadLine();
             file.Close();
         }
-
+        /*
         public Boolean insertAccount()
         {
             Boolean value;
-            if (!accessAccountDataBase()) return false;
+            if (!accessDataBase()) return false;
             try {
                 if (!checkAccount()) value = false;
                 else
@@ -53,29 +53,30 @@ namespace HomeworkPlatform.Models
             }
             return value;
         }
-
-        public Boolean checkAccount()
+        */
+        public ApplicationUser find(string userName)
         {
-            Boolean value;
-            if (!accessAccountDataBase()) return false;
-            var collectionAccount = dataBase.GetCollection<BsonDocument>("account");
-            var search = new BsonDocument("email", "admin"/*accountinput*/);
-            var result = collectionAccount.Find(search).ToList();
-            if (result.Count == 1)
-            {
-                value = true;
-            }
-            value = false;
-            return value;
+            if (!accessDataBase())
+                return null;
+            var collectionAccount = dataBase.GetCollection<ApplicationUser>("account");
+            var result = collectionAccount.Find(Builders<ApplicationUser>.Filter.Eq(x => x.UserName, userName)).ToList().ElementAt(0);
+            
+            return result;
+        }
+        public Boolean checkAccount(string userName)
+        {
+            if (!accessDataBase()) return false;
+            var collectionAccount = dataBase.GetCollection<ApplicationUser>("account");
+            var result = collectionAccount.Find(Builders<ApplicationUser>.Filter.Eq(x => x.UserName, userName)).ToList();
+            return (result.Count >= 1);
         }
 
-        public Boolean accessAccountDataBase()
+        public Boolean accessDataBase()
         {
             try
             {
                 dbClient = new MongoClient(connect);
                 dataBase = dbClient.GetDatabase(db);
-
                 return true;
             }
             catch (Exception err)

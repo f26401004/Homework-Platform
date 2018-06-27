@@ -50,5 +50,13 @@ namespace HomeworkPlatform.Models
 
         [Display(Name = "分數 Score")]
         public string Score { get; set; }
+
+        [Display(Name = "發布時間 Time")]
+        public DateTime Time { get; set; }
+
+        [Display(Name = "瀏覽人數 visits")]
+        public int Visits { get; set; }
+        [Display(Name = "喜歡 like")]
+        public int Like { get; set; }
     }
 }

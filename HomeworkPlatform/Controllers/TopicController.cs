@@ -8,6 +8,7 @@ using System.IO;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Microsoft.AspNet.Identity;
 
 namespace HomeworkPlatform.Controllers
 {
@@ -46,21 +47,34 @@ namespace HomeworkPlatform.Controllers
             return View(database.getAllTopics());
         }
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult List(int id)
+        public ActionResult List(string id)
         {
             ViewBag.topic_id = id;
             return View();
         }
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Detail(int id)
+        public ActionResult Detail(string id)
         {
             ViewBag.upload_id = id;
             return View();
         }
         [AcceptVerbs(HttpVerbs.Get)]
-        public ActionResult Upload(int id)
+        public ActionResult Upload(string id)
         {
+            
+            string currentUserId = User.Identity.GetUserId();
+            if (currentUserId == null)
+                return HttpNotFound();
+            var database = new AccountDataBase();
+            database.accessDataBase();
+            System.Diagnostics.Debug.WriteLine(User.Identity.GetUserName());
+            if (!database.checkAccount(User.Identity.GetUserName()))
+                return HttpNotFound();
+            
+            ApplicationUser currentUser = database.find(User.Identity.GetUserName());
+            //ApplicationUser currentUser = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(id);
             ViewBag.upload_id = id;
+            ViewData.Add("User", currentUser);
             return View();
         }
 

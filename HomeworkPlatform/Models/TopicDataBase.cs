@@ -9,7 +9,7 @@ namespace HomeworkPlatform.Models
 {
     public class TopicDataBase
     {
-        private IMongoDatabase dataBase = null;
+        private IMongoDatabase database = null;
         private MongoClient dbClient;
         private string user;
         private string pass;
@@ -28,7 +28,7 @@ namespace HomeworkPlatform.Models
         }
         public List<TopicDocument> getAllTopics()
         {
-            var collectionTopic = dataBase.GetCollection<TopicDocument>(collection);//dataBase.GetCollection<BsonDocument>(collection);
+            var collectionTopic = database.GetCollection<TopicDocument>(collection);
             var document = collectionTopic.Find(Builders<TopicDocument>.Filter.Empty).ToList();
             document.Sort((x, y) => DateTime.Compare(y.Date, x.Date));
             return document;
@@ -38,7 +38,7 @@ namespace HomeworkPlatform.Models
             try
             {
                 dbClient = new MongoClient(connect);
-                dataBase = dbClient.GetDatabase(db);
+                database = dbClient.GetDatabase(db);
                 return true;
             }
             catch (Exception err)
