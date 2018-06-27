@@ -59,7 +59,7 @@ namespace HomeworkPlatform.Models
             Boolean value;
             if (!accessAccountDataBase()) return false;
             var collectionAccount = dataBase.GetCollection<BsonDocument>("account");
-            var search = new BsonDocument("account", "admin"/*accountinput*/);
+            var search = new BsonDocument("email", "admin"/*accountinput*/);
             var result = collectionAccount.Find(search).ToList();
             if (result.Count == 1)
             {

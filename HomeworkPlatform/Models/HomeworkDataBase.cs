@@ -9,6 +9,7 @@ namespace HomeworkPlatform.Models
 {
     public class HomeworkDataBase
     {
+        private UpViewModels up;
         private int id;
         private string author;
         private string title;
@@ -25,16 +26,18 @@ namespace HomeworkPlatform.Models
         private string pass;
         private string connect;
         private string db;
-        private string collection = "homework";
+        private string collection = "homwork";
         private List<string> homeworktype;
 
-        public HomeworkDataBase()
+        public HomeworkDataBase(UpViewModels UP)
         {
-            System.IO.StreamReader file = new System.IO.StreamReader("../DataBaseInfo.txt");
+            up = UP;
+            System.IO.StreamReader file = new System.IO.StreamReader("../../DataBaseInfo.txt");
             user = file.ReadLine();
             pass = file.ReadLine();
             connect = file.ReadLine();
             db = file.ReadLine();
+            accessHomeworkDataBase();
             dataBase = dbClient.GetDatabase(db);
             file.Close();
         }
@@ -46,7 +49,7 @@ namespace HomeworkPlatform.Models
             try
             {
                     var collectionAccount = dataBase.GetCollection<BsonDocument>(collection);
-                    //collectionAccount.InsertOne(new BsonDocument { { "account", txtboxaccount.Text }, { "departmentage", txtboxdepartmentage.Text }, { "email", txtboxemail.Text }, { "name", txtboxname.Text }, { "password", txtboxpassword.Text }, { "studentnumber", txtboxstudentnumber.Text } });
+                    collectionAccount.InsertOne(new BsonDocument { { "Title", up.Title }, { "Content",up.Content  },{ "Topic_id", up.Topic },/* { "Author", },*/ { "Score", up.Score}});
                     value = true;
             }
             catch (Exception err)
@@ -56,62 +59,7 @@ namespace HomeworkPlatform.Models
             return value;
         }
 
-        public Boolean pageDefault()
-        {
-            IMongoCollection<BsonDocument> collectionHome;
-            try
-            {
-                collectionHome = dataBase.GetCollection<BsonDocument>("homwork");
-
-                int j = 0;
-                homeworktype = new List<string>();
-
-                var result = collectionHome.Find(_ => true).ToList();
-
-                for (int i = 0; i < result.Count; ++i)
-                {
-                    string homty = result[i].ToString();
-                    String[] cut = homty.Split(new char[5] { ',', ':', '"', ' ', '\n' });
-                    for (int l = 0; l < cut.Length; ++l)
-                    {
-                        if (cut[l] == "homeworktype")
-                        {
-                            l = l + 1;
-                            while (cut[l] == "")
-                            {
-                                l = l + 1;
-                            }
-                            homty = cut[l];
-                            break;
-                        }
-                    }
-                    int k;
-                    for (k = 0; k < i; ++k)
-                    {
-                        if (homty == homeworktype[k])
-                        {
-                            break;
-                        }
-                    }
-                    if (k == i)
-                    {
-                        homeworktype.Add(homty);
-                    }
-                }
-
-            }
-            catch (Exception err)
-            {
-
-
-
-
-
-
-
-            }
-            return true;
-        }
+        
 
         public Boolean getHomework()
         {

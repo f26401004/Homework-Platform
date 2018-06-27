@@ -1,6 +1,49 @@
-﻿@{
+﻿@using HomeworkPlatform.Models
+@model HomeworkPlatform.Models.UpViewModels
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "作業論壇 1.0";
 }
 
+<h4>上傳作業。</h4>
+@using (Html.BeginForm("Upload", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+   
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
 
-<img src="~/Static/Images/Logo.png" style="width: 100%; height: 100%; margin-top: 5.0em" alt="" />
+    <div class="form-group">
+        @Html.LabelFor(m => m.Topic,new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Topic, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group" >
+        @Html.LabelFor(m => m.Content, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10" >
+            @Html.TextBoxFor(m => m.Content, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Score, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Score, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="上傳" class="btn btn-default" />
+        </div>
+        </div>
+        <script src="~/Scripts/jquery-3.3.1.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+}
