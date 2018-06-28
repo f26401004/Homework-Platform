@@ -12,6 +12,9 @@ namespace HomeworkPlatform
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{file}.docx");
+            routes.IgnoreRoute("{file}.doc");
+            routes.IgnoreRoute("{file}.pdf");
 
             // Home router
             routes.MapRoute(

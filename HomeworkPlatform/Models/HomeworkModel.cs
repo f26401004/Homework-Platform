@@ -32,8 +32,10 @@ namespace HomeworkPlatform.Models
         [StringLength(60)]
         public string Title { get; set; }
 
+
+        [DefaultValue(true)]
         [Display(Name = "作者 Author")]
-        public ApplicationUser Author { get; set; }
+        public string Author { get; set; }
 
         [Required]
         [Display(Name = "內容 Content")]
@@ -41,7 +43,7 @@ namespace HomeworkPlatform.Models
         public string Content { get; set; }
 
         [Required]
-        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.doc|.docx|.pdf|.txt|.rar|.zip)$", ErrorMessage = "不允許除了 .doc/.docx/.pdf/.txt/.rar/.zip 外的檔案上傳")]
+        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.doc|.docx|.pdf|)$", ErrorMessage = "不允許除了 .doc/.docx/.pdf/.txt/.rar/.zip 外的檔案上傳")]
         [Display(Name = "上傳 Upload")]
         public HttpPostedFileBase UploadFile { get; set; }
 
@@ -52,7 +54,7 @@ namespace HomeworkPlatform.Models
         public string Score { get; set; }
 
         [Display(Name = "發布時間 Time")]
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
 
         [Display(Name = "瀏覽人數 visits")]
         public int Visits { get; set; }

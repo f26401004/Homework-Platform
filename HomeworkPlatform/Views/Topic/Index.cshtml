@@ -23,7 +23,7 @@
             <h5 class="card-header text-center">@Model.ElementAt(0).Title  <span class="badge badge-pill badge-danger">New!!</span>  </h5>
             <img class="card-img img-thumbnail" src=@Model.ElementAt(0).ImageUrl alt="Card image cap">
             <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
-                @Html.ActionLink("查看", "List", "Topic", Model.ElementAt(0).TopicId, new { @class = "btn btn-success w-100"})
+                @Html.ActionLink("查看", "List", "Topic", new { @id = Model.ElementAt(0).TopicId }, new { @class = "btn btn-success w-100" })
             </div>
         </div>
         @for(int i = 1; i < Model.Count; ++i)
@@ -32,7 +32,7 @@
                 <h5 class="card-header text-center">@Model.ElementAt(i).Title</h5>
                 <img class="card-img img-thumbnail" src=@Model.ElementAt(i).ImageUrl alt="Card image cap">
                 <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
-                    @Html.ActionLink("查看", "List", "Topic", Model.ElementAt(i).TopicId, new { @class = "btn btn-success w-100" })
+                    @Html.ActionLink("查看", "List", "Topic", new { @id = Model.ElementAt(i).TopicId }, new { @class = "btn btn-success w-100"})
                 </div>
             </div>
         }

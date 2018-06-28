@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using HomeworkPlatform.Models;
 using HomeworkPlatform.App_Start;
+using System.IO;
 
 namespace HomeworkPlatform
 {
@@ -25,7 +26,6 @@ namespace HomeworkPlatform
             //app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
             //app.CreatePerOwinContext<PlatformUserManager>(PlatformUserManager.Create);
             //app.CreatePerOwinContext<PlatformSignInManager>(PlatformSignInManager.Create);
-
             // 讓應用程式使用 Cookie 儲存已登入使用者的資訊
             // 並使用 Cookie 暫時儲存使用者利用協力廠商登入提供者登入的相關資訊；
             // 在 Cookie 中設定簽章
@@ -41,7 +41,8 @@ namespace HomeworkPlatform
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
+            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // 讓應用程式在雙因素驗證程序中驗證第二個因素時暫時儲存使用者資訊。

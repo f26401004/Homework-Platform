@@ -15,7 +15,7 @@
         <hr/>
         <h4 class="text-center text-light bg-dark" style="height: 2em; padding-top: 0.4em;"> C# final project</h4>
         <section id="loginForm">
-            @using (Html.BeginForm("Upload", "Topic", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Upload", "Topic", new { ReturnUrl = ViewBag.ReturnUrl, topic_id = ViewBag.upload_id}, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
                 <hr />

@@ -39,15 +39,17 @@ namespace HomeworkPlatform.Models
             file.Close();
         }
 
-        public Boolean insertHomwork(HomeworkModel model)
+        public Boolean insertHomwork(HomeworkModel model, string Author, string TopicId, string FileName)
         {
-            Boolean value;
+            Boolean value = false;
             if (!accessDataBase()) return false;
             try
             {
                 var collectionAccount = dataBase.GetCollection<BsonDocument>(collection);
-                collectionAccount.InsertOne(new BsonDocument { {"Title", model.Title}, { "Content", model.Content }, { "Author", model.Author.StudentID }, { "DepartmentAge", model.Author.DepartmentAge }, { "Email", model.Author.Email },
-                    { "UserName", model.Author.UserName },  { "ServerFilePath", model.ServerFilePath }, { "Score", model.Score } });
+                
+                collectionAccount.InsertOne(new BsonDocument { { "TopicId", TopicId} ,{"Title", model.Title}, { "Content", model.Content },
+                    { "Author", Author }, { "ServerFilePath", FileName }, { "Score", model.Score }, { "Time", DateTime.Now.ToString()}
+                , { "Visits", 0 }, {"Like", 0 } });
                 value = true;
             }
             catch (Exception err)
@@ -59,19 +61,38 @@ namespace HomeworkPlatform.Models
 
         
 
-        public Boolean getHomework()
+        public List<HomeworkModel> getHomeworkByTopicId(string id)
         {
-            Boolean value;
-            if (!accessDataBase()) return false;
-            var collectionHomework = dataBase.GetCollection<BsonDocument>("id");
-            var search = new BsonDocument("id", "test"/*accountinput*/);
-            var result = collectionHomework.Find(search).ToList();
-            if (result.Count == 1)
+            if (!accessDataBase())
+                return null;
+            var collectionHomework = dataBase.GetCollection<HomeworkModel>(collection);
+            try
             {
-                value = true;
+                var result = collectionHomework.Find(Builders<HomeworkModel>.Filter.Eq(x => x.TopicId, id)).ToList();
+                return result;
             }
-            value = false;
-            return value;
+            catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            return null;
+            
+        }
+        public HomeworkModel getHomeworkById(string id)
+        {
+            if (!accessDataBase())
+                return null;
+            var collectionHomework = dataBase.GetCollection<HomeworkModel>(collection);
+            try
+            {
+                var result = collectionHomework.Find(Builders<HomeworkModel>.Filter.Eq(x => x.HomeworkId, ObjectId.Parse(id))).ToList();
+                return result.ElementAt(0);
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+            }
+            return null;
+
         }
 
         public Boolean accessDataBase()

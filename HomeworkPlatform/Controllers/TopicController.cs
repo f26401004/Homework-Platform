@@ -9,6 +9,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Microsoft.AspNet.Identity;
+using System.Net;
+
 
 namespace HomeworkPlatform.Controllers
 {
@@ -49,30 +51,34 @@ namespace HomeworkPlatform.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult List(string id)
         {
+            System.Diagnostics.Debug.WriteLine(id);
+            var database = new HomeworkDataBase();
+            database.accessDataBase();
+
             ViewBag.topic_id = id;
-            return View();
+            ViewBag.Title = "C# final project";
+
+            return View(database.getHomeworkByTopicId(id));
         }
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Detail(string id)
         {
             ViewBag.upload_id = id;
-            return View();
+            var database = new HomeworkDataBase();
+            database.accessDataBase();
+            return View(database.getHomeworkById(id));
         }
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Upload(string id)
         {
-            
             string currentUserId = User.Identity.GetUserId();
             if (currentUserId == null)
                 return HttpNotFound();
             var database = new AccountDataBase();
             database.accessDataBase();
-            System.Diagnostics.Debug.WriteLine(User.Identity.GetUserName());
             if (!database.checkAccount(User.Identity.GetUserName()))
                 return HttpNotFound();
-            
             ApplicationUser currentUser = database.find(User.Identity.GetUserName());
-            //ApplicationUser currentUser = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(id);
             ViewBag.upload_id = id;
             ViewData.Add("User", currentUser);
             return View();
@@ -81,7 +87,7 @@ namespace HomeworkPlatform.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(HomeworkModel model, string returnUrl)
+        public ActionResult Upload(HomeworkModel model, string returnUrl, string topic_id)
         {
             if (!ModelState.IsValid)
             {
@@ -89,20 +95,18 @@ namespace HomeworkPlatform.Controllers
             }
             try
             {
-                
+                System.Diagnostics.Debug.WriteLine(model.TopicId);
+                System.Diagnostics.Debug.WriteLine(model.Author);
                 if (model.UploadFile.ContentLength > 0)
                 {
-                    
                     string fileName = Path.GetFileName(model.UploadFile.FileName);
-                    fileName = model.Author.StudentID + "_" + fileName;
-                    string path = Path.Combine(Server.MapPath("~/App_Data/Homework/" + model.TopicId), fileName);
-                    //string path = Path.Combine(Server.MapPath("~/App_Data/"), fileName);
+                    string path = Path.Combine(Server.MapPath("~/Static/Homework/"), topic_id + "_"+ User.Identity.GetUserName() + "_" +  fileName);
                     model.UploadFile.SaveAs(path);
                 }
                 ViewBag.Message = "File Uploaded Successfully!!";
                 var database = new HomeworkDataBase();
                 database.accessDataBase();
-                database.insertHomwork(model);
+                database.insertHomwork(model, User.Identity.GetUserName(), topic_id, topic_id + "_" + User.Identity.GetUserName() + "_" + Path.GetFileName(model.UploadFile.FileName));
                 return RedirectToAction("Index", "Topic");
             }
             catch
@@ -113,4 +117,6 @@ namespace HomeworkPlatform.Controllers
         }
 
     }
+
+    
 }
